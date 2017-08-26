@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import zx_ventures.com.beercrawl.data.Poc;
+import zx_ventures.com.beercrawl.data.geocode.Result;
 import zx_ventures.com.beercrawl.data.source.remote.RetrofitClient;
 import zx_ventures.com.beercrawl.data.source.remote.RetrofitInterface;
 
@@ -26,12 +27,14 @@ public class MainPresenter implements MainContract.Presenter{
 
     @Override
     public void searchPoc(String query) {
+        mPocsView.showProgress();
         Call<Poc> call = apiService.getPocs(query);
         call.enqueue(new Callback<Poc>() {
             @Override
             public void onResponse(Call<Poc>call, Response<Poc> response) {
                 if(response.errorBody() == null) {
                     if (response.body() != null) {
+                        mPocsView.hideProgress();
                         mPocsView.showPocs(response.body());
                     }
                 }
@@ -48,7 +51,7 @@ public class MainPresenter implements MainContract.Presenter{
     }
 
     @Override
-    public void selectPoc() {
-
+    public void selectPoc(Result poc) {
+        mPocsView.goToPoc(poc);
     }
 }

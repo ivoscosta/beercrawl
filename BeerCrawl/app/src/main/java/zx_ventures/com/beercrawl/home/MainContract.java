@@ -1,8 +1,7 @@
 package zx_ventures.com.beercrawl.home;
 
-import java.util.List;
-
 import zx_ventures.com.beercrawl.data.Poc;
+import zx_ventures.com.beercrawl.data.geocode.Result;
 
 /**
  * Created by ivo on 24/08/17.
@@ -10,17 +9,16 @@ import zx_ventures.com.beercrawl.data.Poc;
 
 public interface MainContract {
 
-    interface View{
-
+    interface View {
         void showPocs(Poc tasks);
-
+        void goToPoc(Result poc);
+        void showProgress();
+        void hideProgress();
     }
 
-    interface Presenter{
-
+    interface Presenter {
         void searchPoc(String query);
-        void selectPoc();
-
+        void selectPoc(Result poc);
     }
 
 }

@@ -1,6 +1,7 @@
 package zx_ventures.com.beercrawl.home;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,7 +12,7 @@ import java.util.List;
 import zx_ventures.com.beercrawl.R;
 
 /**
- * Created by nds on 25/08/17.
+ * Created by ivo on 25/08/17.
  */
 
 public class PocListAdapter extends BaseAdapter {
@@ -45,22 +46,16 @@ public class PocListAdapter extends BaseAdapter {
         ViewHolder viewHolder;
 
         if (rowView == null) {
-            rowView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_movie, null);
+            rowView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_poc, null);
             // configure view holder
             viewHolder = new ViewHolder();
-            viewHolder.imgPoster = (ImageView) rowView.findViewById(R.id.poster);
-            viewHolder.txtTitle = (TextView) rowView.findViewById(R.id.title);
-            viewHolder.txtYear = (TextView) rowView.findViewById(R.id.year);
-            viewHolder.txtType = (TextView) rowView.findViewById(R.id.type);
+            viewHolder.name = (TextView) rowView.findViewById(R.id.name);
             rowView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Util.setPicture(viewHolder.imgPoster, arraylist.get(position).getPoster());
-        viewHolder.txtTitle.setText(arraylist.get(position).getTitle());
-        viewHolder.txtYear.setText(arraylist.get(position).getYear());
-        viewHolder.txtType.setText(arraylist.get(position).getType());
+        viewHolder.name.setText(arraylist.get(position));
         return rowView;
     }
 
