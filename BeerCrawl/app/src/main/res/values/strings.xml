@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Beer Crawl</string>
+    <string name="api_url">http://bit.ly/</string>
+    <string name="google_maps_url">https://maps.googleapis.com/</string>
+
+    <string name="main_title">Delivery address</string>
+    <string name="main_subtitle">Where are you?</string>
+    <string name="main_message">I will use your address to find the fastest delivery option available in your area.</string>
+    <string name="main_hint">Type a address</string>
+</resources>
