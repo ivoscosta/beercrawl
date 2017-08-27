@@ -1,4 +1,4 @@
-package zx_ventures.com.beercrawl.data.geocode;
+package zx_ventures.com.beercrawl.data.source.remote.dto.geocode;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

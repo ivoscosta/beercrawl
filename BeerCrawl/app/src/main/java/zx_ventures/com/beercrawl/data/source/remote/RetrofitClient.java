@@ -10,21 +10,8 @@ import zx_ventures.com.beercrawl.util.PubCrawlApplication;
  */
 
 public class RetrofitClient {
-    public static final String BASE_URL = PubCrawlApplication.getAppContext().getResources().getString(R.string.api_url);
-    private static Retrofit retrofit = null;
-
     public static final String BASE_URL_MAPS = PubCrawlApplication.getAppContext().getResources().getString(R.string.google_maps_url);
     private static Retrofit retrofitMaps = null;
-
-    public static Retrofit getClient() {
-        if (retrofit==null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofit;
-    }
 
     public static Retrofit getClientMaps() {
         if (retrofitMaps==null) {

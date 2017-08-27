@@ -2,17 +2,15 @@ package zx_ventures.com.beercrawl.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -20,9 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zx_ventures.com.beercrawl.R;
-import zx_ventures.com.beercrawl.data.Poc;
-import zx_ventures.com.beercrawl.data.geocode.Result;
+import zx_ventures.com.beercrawl.data.LocationMap;
 import zx_ventures.com.beercrawl.productlist.ProductListActivity;
+
+import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
@@ -30,9 +29,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private EditText mTextQuery;
     private ListView mListView;
     private ProgressBar mProgress;
-    private PocListAdapter mPocListAdapter;
-    private List<Result> mPocList;
-    private List<String> mPocListAddress;
+    private LocationListAdapter mLocationListAdapter;
+    private List<LocationMap> mLocationMapList;
+    private List<String> mLocationListAddress;
     public static final String POC = "POC";
 
     @Override
@@ -46,17 +45,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mListView = (ListView) findViewById(R.id.list);
         mProgress = (ProgressBar) findViewById(R.id.progress);
 
-        mTextQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    mPresenter.searchPoc(mTextQuery.getText().toString().trim());
-                    return false;
-                }
-                return false;
-            }
-        });
-
         mTextQuery.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -65,10 +53,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.length() > 2)
-                    mPresenter.searchPoc(s.toString().trim());
+                    mPresenter.searchLocation(s.toString().trim());
                 else {
-                    mPocListAddress.clear();
-                    mPocListAdapter.notifyDataSetChanged();
+                    mLocationListAddress.clear();
+                    mLocationListAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -80,30 +68,36 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                mPresenter.selectPoc(mPocList.get(position));
+                goToLocation(mLocationMapList.get(position));
             }
         });
 
-        mPocListAddress = new ArrayList<>();
-        mPocListAdapter = new PocListAdapter(mPocListAddress, this);
-        mListView.setAdapter(mPocListAdapter);
+        mLocationListAddress = new ArrayList<>();
+        mLocationListAdapter = new LocationListAdapter(mLocationListAddress, this);
+        mListView.setAdapter(mLocationListAdapter);
     }
 
     @Override
-    public void showPocs(Poc tasks) {
-        mPocListAddress.clear();
-        mPocList = tasks.getResults();
-        for(int i=0; i<tasks.getResults().size(); i++) {
-            mPocListAddress.add(mPocList.get(i).getFormattedAddress());
+    protected void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
+    @Override
+    public void showLocations(List<LocationMap> locationMaps) {
+        mLocationMapList = locationMaps;
+        mLocationListAddress.clear();
+        for(int i = 0; i< locationMaps.size(); i++) {
+            mLocationListAddress.add(mLocationMapList.get(i).getFormattedAddress());
         }
-        mPocListAdapter.notifyDataSetChanged();
+        mLocationListAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void goToPoc(Result poc) {
+    public void goToLocation(LocationMap locationMap) {
         Gson gson = new Gson();
         Intent intent = new Intent(getApplicationContext(), ProductListActivity.class);
-        intent.putExtra(POC, gson.toJson(poc));
+        intent.putExtra(POC, gson.toJson(locationMap));
         startActivity(intent);
     }
 
@@ -115,5 +109,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void hideProgress() {
         mProgress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setPresenter(@NonNull MainContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 }

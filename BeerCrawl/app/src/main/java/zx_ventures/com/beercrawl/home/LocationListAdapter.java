@@ -15,12 +15,12 @@ import zx_ventures.com.beercrawl.R;
  * Created by ivo on 25/08/17.
  */
 
-public class PocListAdapter extends BaseAdapter {
+public class LocationListAdapter extends BaseAdapter {
 
     private Context context;
     private List<String> arraylist;
 
-    public PocListAdapter(List<String> apps, Context context) {
+    public LocationListAdapter(List<String> apps, Context context) {
         this.arraylist = apps;
         this.context = context;
     }

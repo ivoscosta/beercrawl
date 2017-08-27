@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:hint="@string/main_hint"
-                android:imeOptions="actionSearch"
+                android:imeOptions="actionDone"
                 android:inputType="textCapWords" />
 
             <ProgressBar

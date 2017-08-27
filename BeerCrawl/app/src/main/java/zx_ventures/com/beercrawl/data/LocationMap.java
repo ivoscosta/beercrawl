@@ -1,14 +1,17 @@
-package zx_ventures.com.beercrawl.data.geocode;
+package zx_ventures.com.beercrawl.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import zx_ventures.com.beercrawl.data.source.remote.dto.geocode.Geometry;
+
 /**
- * Created by ivo on 25/08/17.
+ * Created by ivo on 24/08/17.
  */
 
-public class Result {
+public class LocationMap {
     @SerializedName("formatted_address")
     private String formattedAddress;
+
     @SerializedName("geometry")
     private Geometry geometry;
 

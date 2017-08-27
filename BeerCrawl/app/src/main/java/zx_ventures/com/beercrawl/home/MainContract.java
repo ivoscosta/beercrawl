@@ -1,7 +1,10 @@
 package zx_ventures.com.beercrawl.home;
 
-import zx_ventures.com.beercrawl.data.Poc;
-import zx_ventures.com.beercrawl.data.geocode.Result;
+import java.util.List;
+
+import zx_ventures.com.beercrawl.BasePresenter;
+import zx_ventures.com.beercrawl.BaseView;
+import zx_ventures.com.beercrawl.data.LocationMap;
 
 /**
  * Created by ivo on 24/08/17.
@@ -9,16 +12,15 @@ import zx_ventures.com.beercrawl.data.geocode.Result;
 
 public interface MainContract {
 
-    interface View {
-        void showPocs(Poc tasks);
-        void goToPoc(Result poc);
+    interface View extends BaseView<Presenter> {
+        void showLocations(List<LocationMap> locationMaps);
+        void goToLocation(LocationMap locationMap);
         void showProgress();
         void hideProgress();
     }
 
-    interface Presenter {
-        void searchPoc(String query);
-        void selectPoc(Result poc);
+    interface Presenter extends BasePresenter {
+        void searchLocation(String query);
     }
 
 }

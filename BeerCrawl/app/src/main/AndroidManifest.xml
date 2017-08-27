@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".home.MainActivity"
-            android:label="@string/main_title"></activity>
+            android:label="@string/main_title" />
         <activity
             android:name=".splashscreen.SplashScreenActivity"
             android:theme="@style/SplashTheme">
@@ -24,7 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".productlist.ProductListActivity"></activity>
+        <activity android:name=".productlist.ProductListActivity" />
+        <activity android:name=".poclist.PocListActivity"></activity>
     </application>
 
 </manifest>
