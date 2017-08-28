@@ -8,4 +8,10 @@
     <string name="main_subtitle">Where are you?</string>
     <string name="main_message">I will use your address to find the fastest delivery option available in your area.</string>
     <string name="main_hint">Type a address</string>
+    <string name="no_products">Without Products</string>
+    <string name="no_products_message">This contact point has no products\nin this category</string>
+    <string name="no_pocs">Without Points of Contact</string>
+    <string name="no_pocs_message">This location has no contact points,\nplease choose another</string>
+    <string name="no_description">No description</string>
+    <string name="product_detail_title">Product detail</string>
 </resources>

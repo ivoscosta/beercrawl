@@ -11,6 +11,7 @@ import com.apollographql.apollo.exception.ApolloException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -25,15 +26,16 @@ import zx_ventures.com.beercrawl.data.PocSearchMethodQuery;
 
 public class ProductListPresenter implements ProductListContract.Presenter {
 
-    private final ProductListContract.View mProductListView;
+    private final ProductListContract.View mView;
     private ApolloClient mApolloClient;
     private ProductListActivity mActivity;
     private LocationMap mLocationMap;
     private PocSearchMethodQuery.PocSearch mPoc;
+    private List<AllCategoriesSearchQuery.AllCategory> mAllCategory;
     private AllCategoriesSearchQuery.AllCategory mFirstCategory;
 
     public ProductListPresenter(@NonNull ProductListActivity activity, LocationMap location) {
-        mProductListView = activity;
+        mView = activity;
         mApolloClient = zx_ventures.com.beercrawl.data.source.remote.ApolloClient.getClientApollo();
         mActivity = activity;
         mLocationMap = location;
@@ -47,15 +49,8 @@ public class ProductListPresenter implements ProductListContract.Presenter {
             @Override
             public void onResponse(@Nonnull final Response<AllCategoriesSearchQuery.Data> dataResponse) {
                 if (dataResponse.data().allCategory().size() > 0) {
-                    mFirstCategory = dataResponse.data().allCategory().get(0);
-
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mProductListView.showAllCategories(dataResponse.data().allCategory());
-                        }
-                    });
-
+                    mAllCategory = dataResponse.data().allCategory();
+                    mFirstCategory = mAllCategory.get(0);
                     verifyLoadedData();
                 }
             }
@@ -86,6 +81,14 @@ public class ProductListPresenter implements ProductListContract.Presenter {
                     mPoc = dataResponse.data().pocSearch().get(0);
                     verifyLoadedData();
                 }
+                else {
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mView.showMessageNoPocs();
+                        }
+                    });
+                }
             }
 
             @Override
@@ -96,12 +99,19 @@ public class ProductListPresenter implements ProductListContract.Presenter {
     }
 
     void verifyLoadedData() {
-        if (mPoc != null && mFirstCategory != null)
-            getCategoryProducts(mFirstCategory.id());
+        if (mPoc != null && mFirstCategory != null) {
+            mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mView.showAllCategories(mAllCategory);
+                }
+            });
+            getProducts(mFirstCategory.id());
+        }
     }
 
     @Override
-    public void getCategoryProducts(String idCategory) {
+    public void getProducts(String idCategory) {
         if(mPoc != null) {
             mApolloClient.query(PocCategorySearchQuery.builder()
                     .id(mPoc.id())
@@ -116,7 +126,9 @@ public class ProductListPresenter implements ProductListContract.Presenter {
                         @Override
                         public void run() {
                             if (dataResponse.data().poc().products().size() > 0)
-                                mProductListView.showCategoryProducts(dataResponse.data().poc().products());
+                                mView.showProducts(dataResponse.data().poc().products());
+                            else
+                                mView.showMessageNoProducts();
                         }
                     });
                 }

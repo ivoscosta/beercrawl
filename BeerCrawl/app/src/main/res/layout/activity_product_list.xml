@@ -1,17 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="zx_ventures.com.beercrawl.productlist.ProductListActivity">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabs"
-        android:background="@android:color/white"
+    <LinearLayout
+        android:id="@+id/containerProducts"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabMode="scrollable" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:visibility="gone"
+            app:tabMode="scrollable"
+            app:tabIndicatorColor="@color/yellow"/>
+
+        <GridView
+            android:layout_margin="5dp"
+            android:id="@+id/gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnWidth="105dp"
+            android:horizontalSpacing="5dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="spacingWidth"
+            android:verticalSpacing="5dp" />
+
+    </LinearLayout>
+
+    <include layout="@layout/no_product_itens" />
+
+    <include layout="@layout/progressbar" />
+
+</RelativeLayout>

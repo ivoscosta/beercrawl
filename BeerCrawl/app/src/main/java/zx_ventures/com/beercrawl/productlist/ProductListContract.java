@@ -16,16 +16,16 @@ public interface ProductListContract {
 
     interface View extends BaseView<Presenter> {
         void showAllCategories(List<AllCategoriesSearchQuery.AllCategory> categories);
-        void showCategoryProducts(List<PocCategorySearchQuery.Product> products);
-//        void goToProduct(Beer product);
-        void showProgress();
-        void hideProgress();
+        void showProducts(List<PocCategorySearchQuery.Product> products);
+        void goToProduct(PocCategorySearchQuery.Product product);
+        void showMessageNoPocs();
+        void showMessageNoProducts();
     }
 
     interface Presenter extends BasePresenter {
         void getPoc(LocationMap location);
         void getAllCategories();
-        void getCategoryProducts(String idCategory);
+        void getProducts(String idCategory);
     }
 
 }

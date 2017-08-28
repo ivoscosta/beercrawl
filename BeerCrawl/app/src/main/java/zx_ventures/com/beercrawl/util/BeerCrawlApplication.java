@@ -7,16 +7,16 @@ import android.content.Context;
  * Created by ivo on 24/08/17.
  */
 
-public class PubCrawlApplication extends Application {
+public class BeerCrawlApplication extends Application {
     private static Context context;
 
     public void onCreate() {
         super.onCreate();
-        PubCrawlApplication.context = getApplicationContext();
+        BeerCrawlApplication.context = getApplicationContext();
     }
 
     //pega o contexto da aplicação
     public static Context getAppContext() {
-        return PubCrawlApplication.context;
+        return BeerCrawlApplication.context;
     }
 }

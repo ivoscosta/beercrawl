@@ -20,6 +20,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     private final MainContract.View mLocationsView;
     private RetrofitInterface apiService;
+    private Call<ResultDto> mCall;
 
     public MainPresenter(@NonNull MainActivity activity) {
         mLocationsView = checkNotNull(activity);
@@ -31,8 +32,10 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void searchLocation(String query) {
         mLocationsView.showProgress();
-        Call<ResultDto> call = apiService.getLocations(query);
-        call.enqueue(new Callback<ResultDto>() {
+        if(mCall != null)
+            mCall.cancel();
+        mCall = apiService.getLocations(query);
+        mCall.enqueue(new Callback<ResultDto>() {
             @Override
             public void onResponse(Call<ResultDto>call, Response<ResultDto> response) {
                 if(response.errorBody() == null) {

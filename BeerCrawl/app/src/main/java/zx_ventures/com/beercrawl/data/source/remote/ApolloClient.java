@@ -2,14 +2,14 @@ package zx_ventures.com.beercrawl.data.source.remote;
 
 import okhttp3.OkHttpClient;
 import zx_ventures.com.beercrawl.R;
-import zx_ventures.com.beercrawl.util.PubCrawlApplication;
+import zx_ventures.com.beercrawl.util.BeerCrawlApplication;
 
 /**
  * Created by ivo on 24/08/17.
  */
 
 public class ApolloClient {
-    public static final String BASE_URL = PubCrawlApplication.getAppContext().getResources().getString(R.string.graphql_url);
+    public static final String BASE_URL = BeerCrawlApplication.getAppContext().getResources().getString(R.string.graphql_url);
     private static com.apollographql.apollo.ApolloClient apollo = null;
     private static OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .build();
