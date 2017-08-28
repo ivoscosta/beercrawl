@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Beer Crawl</string>
-    <string name="api_url">http://bit.ly/</string>
     <string name="google_maps_url">https://maps.googleapis.com/</string>
     <string name="graphql_url">https://803votn6w7.execute-api.us-west-2.amazonaws.com/dev/public/graphql</string>
 
